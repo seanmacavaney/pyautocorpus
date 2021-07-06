@@ -22,6 +22,7 @@ if windows:
     print('PCRE_HOME', PCRE_HOME)
     include_dirs.append(PCRE_HOME)
     lib_dirs.append(PCRE_HOME)
+    extra_compile_args.append('-D_POSIX_C_SOURCE=199309L')
 else:
     comp.append('-std=c++11')
 
