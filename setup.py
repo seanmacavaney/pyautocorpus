@@ -16,7 +16,7 @@ include_dirs = [
 lib_dirs = []
 libs = ['pcre']
 comp = []
-macros = []
+macros = [('PCRE_STATIC', None)]
 
 if windows:
     PCRE_HOME = os.environ.get("PCRE_HOME", os.path.realpath(os.path.join(__file__, '..', 'pcre')))
