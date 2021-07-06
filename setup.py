@@ -22,7 +22,8 @@ if windows:
     print('PCRE_HOME', PCRE_HOME)
     include_dirs.append(PCRE_HOME)
     lib_dirs.append(PCRE_HOME)
-    comp.append('-D_POSIX_C_SOURCE=199309L')
+    comp.append('-DCLOCK_MONOTONIC')
+    comp.append('-Dclock_gettime(a, b) do {} while(0)')
 else:
     comp.append('-std=c++11')
 
