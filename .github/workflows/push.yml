@@ -36,7 +36,6 @@ jobs:
         python-version: '3.x'
     - name: install-deps
       run: |
-        apt-get install libpcre3 libpcre3-dev
         python -m pip install --upgrade pip
         pip install setuptools wheel twine cibuildwheel==1.7.4
     - name: build
@@ -51,12 +50,12 @@ jobs:
     #     TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
     #   run: |
     #     twine upload wheelhouse/*
-  deploy-bdist-windows:
+  deploy-bdist-macos:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.6, 3.7, 3.8, 3.9]
-        os: ['windows-latest']
+        python-version: [3.6]
+        os: ['macos-latest']
         architecture: ['x64']
     runs-on: ${{ matrix.os }}
     steps:
@@ -71,10 +70,38 @@ jobs:
         pip install setuptools wheel twine
     - name: build
       run: |
-        powershell -Command "(New-Object Net.WebClient).DownloadFile('https://raw.githubusercontent.com/horta/zlib.install/master/install.bat', 'install.bat')"; ./install.bat
-        "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
-        echo "$INCLUDE"
-        set INCLUDE "C:/Program Files (x86)/Windows Kits/10/Include/10.0.10240.0/ucrt"
+        python setup.py bdist_wheel
+    # - name: upload
+    #   env:
+    #     TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+    #     TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+    #   run: |
+    #     twine upload dist/*
+
+  deploy-bdist-windows:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [3.6]
+        os: ['windows-latest']
+        architecture: ['x64']
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: install-deps
+      run: |
+        svn co svn://vcs.exim.org/pcre/code/trunk pcre
+        cd pcre
+        cmake.exe .
+        cd ..
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install setuptools wheel twine
+    - name: build
+      run: |
         python setup.py bdist_wheel
     # - name: upload
     #   env:
