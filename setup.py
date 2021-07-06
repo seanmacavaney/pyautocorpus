@@ -16,14 +16,15 @@ include_dirs = [
 lib_dirs = []
 libs = ['pcre']
 comp = []
+macros = []
 
 if windows:
     PCRE_HOME = os.environ.get("PCRE_HOME", os.path.realpath(os.path.join(__file__, '..', 'pcre')))
     print('PCRE_HOME', PCRE_HOME)
     include_dirs.append(PCRE_HOME)
     lib_dirs.append(PCRE_HOME)
-    comp.append(r'\DCLOCK_MONOTONIC 0')
-    comp.append(r'\Dclock_gettime(a, b) {} while (0)')
+    macros.append(('CLOCK_MONOTONIC', '0'))
+    macros.append(('Dclock_gettime(a, b)', '{} while (0)'))
 else:
     comp.append('-std=c++11')
 
@@ -47,5 +48,5 @@ setuptools.setup(
         "src/pyautocorpus.cpp",
         "AutoCorpus/src/common/utilities.cpp",
         "AutoCorpus/src/wikipedia/Textifier.cpp",
-    ], include_dirs=include_dirs, libraries=libs, extra_compile_args=comp)],
+    ], include_dirs=include_dirs, libraries=libs, define_macros=macros, extra_compile_args=comp)],
 )
