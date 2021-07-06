@@ -24,7 +24,7 @@ if windows:
     include_dirs.append(PCRE_HOME)
     lib_dirs.append(PCRE_HOME)
     macros.append(('CLOCK_MONOTONIC', None))
-    macros.append(('clock_gettime', '(a,b) {} while (0)'))
+    macros.append(('clock_gettime', 'do {} while (0) //'))
 else:
     comp.append('-std=c++11')
 
