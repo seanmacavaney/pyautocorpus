@@ -41,6 +41,10 @@ pyautocorpus.textify("==Wiki Marked up text==\n [[Some Page|link text]] example.
 'Wiki Marked up text\n\n\n link text example.'
 ```
 
+## Known issues
+
+ - Windows is not yet supported
+
 ## Credits
 
 [AutoCorpus](https://github.com/mpacula/AutoCorpus)
