@@ -1,0 +1,3 @@
+[submodule "AutoCorpus"]
+	path = AutoCorpus
+	url = https://github.com/mpacula/AutoCorpus
