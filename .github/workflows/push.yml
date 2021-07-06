@@ -49,7 +49,7 @@ jobs:
     - name: build
       env:
         CIBW_SKIP: "cp27-* pp27-* cp35-*"  # skip Python 2.7 and 3.5 wheels
-        CIBW_BEFORE_ALL: "yum install -y libpcre3-dev"
+        CIBW_BEFORE_ALL: "yum install -y pcre pcre-devel"
       run: |
         python -m cibuildwheel --output-dir wheelhouse
     - uses: actions/upload-artifact@v2
@@ -121,6 +121,7 @@ jobs:
         pip install setuptools wheel twine
     - name: build
       run: |
+        "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
         echo "$INCLUDE"
         set INCLUDE "D:\a\pyautocorpus\pyautocorpus\pcre"
         dir "$INCLUDE"
