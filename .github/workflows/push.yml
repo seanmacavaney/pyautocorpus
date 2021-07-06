@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+      submodules: recursive
     - uses: actions/setup-python@v2
       with:
         python-version: '3.x'
@@ -27,10 +28,15 @@ jobs:
     #     TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
     #   run: |
     #     twine upload dist/*
+    - uses: actions/upload-artifact@v2
+      with:
+        name: sdist-manylinux
+        path: dist/*
   deploy-bdist-manylinux:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+      submodules: recursive
     - uses: actions/setup-python@v2
       with:
         python-version: '3.x'
@@ -40,10 +46,14 @@ jobs:
         pip install setuptools wheel twine cibuildwheel==1.7.4
     - name: build
       env:
-        CIBW_SKIP: "cp27-* pp27-* pp35-*"  # skip Python 2.7 and 3.5 wheels
+        CIBW_SKIP: "cp27-* pp27-* cp35-*"  # skip Python 2.7 and 3.5 wheels
         CIBW_BEFORE_ALL: "yum install -y zlib-devel"
       run: |
         python -m cibuildwheel --output-dir wheelhouse
+    - uses: actions/upload-artifact@v2
+      with:
+        name: bdist-manylinux
+        path: wheelhouse/*
     # - name: upload
     #   env:
     #     TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
@@ -60,6 +70,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
+      submodules: recursive
     - uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
@@ -70,6 +81,10 @@ jobs:
     - name: build
       run: |
         python setup.py bdist_wheel
+    - uses: actions/upload-artifact@v2
+      with:
+        name: bdist-macos
+        path: dist/*
     # - name: upload
     #   env:
     #     TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
@@ -87,6 +102,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
+      submodules: recursive
     - uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
@@ -101,7 +117,13 @@ jobs:
         pip install setuptools wheel twine
     - name: build
       run: |
+        echo "$INCLUDE"
+        set INCLUDE "D:\a\pyautocorpus\pyautocorpus\pcre"
         python setup.py bdist_wheel
+    - uses: actions/upload-artifact@v2
+      with:
+        name: bdist-windows
+        path: dist/*
     # - name: upload
     #   env:
     #     TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
