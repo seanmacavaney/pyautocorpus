@@ -11,7 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-      submodules: recursive
+      with:
+        submodules: recursive
     - uses: actions/setup-python@v2
       with:
         python-version: '3.x'
@@ -36,7 +37,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-      submodules: recursive
+      with:
+        submodules: recursive
     - uses: actions/setup-python@v2
       with:
         python-version: '3.x'
@@ -70,7 +72,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
-      submodules: recursive
+      with:
+        submodules: recursive
     - uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
@@ -102,7 +105,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
-      submodules: recursive
+      with:
+        submodules: recursive
     - uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
