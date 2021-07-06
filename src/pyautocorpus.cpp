@@ -1,14 +1,15 @@
 #define PY_SSIZE_T_CLEAN
-#include <Python.h>
-#include "pcre.h"
-#include "Textifier.h"
-#include <iostream>
 
 #ifdef WIN_HACK
 // noop
 #define CLOCK_MONOTONIC 0
 #define clock_gettime(a, b) {} while (0);
 #endif
+
+#include <Python.h>
+#include "pcre.h"
+#include "Textifier.h"
+#include <iostream>
 
 
 
