@@ -33,35 +33,35 @@ jobs:
   #     with:
   #       name: sdist-manylinux
   #       path: dist/*
-  deploy-bdist-manylinux:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: recursive
-    - uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-    - name: install-deps
-      run: |
-        python -m pip install --upgrade pip
-        pip install setuptools wheel twine cibuildwheel==1.7.4
-    - name: build
-      env:
-        CIBW_SKIP: "cp27-* pp27-* cp35-*"  # skip Python 2.7 and 3.5 wheels
-        CIBW_BEFORE_ALL: "yum install -y pcre pcre-devel"
-      run: |
-        python -m cibuildwheel --output-dir wheelhouse
-    - uses: actions/upload-artifact@v2
-      with:
-        name: bdist-manylinux
-        path: wheelhouse/*
-    # - name: upload
-    #   env:
-    #     TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-    #     TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-    #   run: |
-    #     twine upload wheelhouse/*
+  # deploy-bdist-manylinux:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #     with:
+  #       submodules: recursive
+  #   - uses: actions/setup-python@v2
+  #     with:
+  #       python-version: '3.x'
+  #   - name: install-deps
+  #     run: |
+  #       python -m pip install --upgrade pip
+  #       pip install setuptools wheel twine cibuildwheel==1.7.4
+  #   - name: build
+  #     env:
+  #       CIBW_SKIP: "cp27-* pp27-* cp35-*"  # skip Python 2.7 and 3.5 wheels
+  #       CIBW_BEFORE_ALL: "yum install -y pcre pcre-devel"
+  #     run: |
+  #       python -m cibuildwheel --output-dir wheelhouse
+  #   - uses: actions/upload-artifact@v2
+  #     with:
+  #       name: bdist-manylinux
+  #       path: wheelhouse/*
+  #   # - name: upload
+  #   #   env:
+  #   #     TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+  #   #     TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+  #   #   run: |
+  #   #     twine upload wheelhouse/*
   # deploy-bdist-macos:
   #   strategy:
   #     fail-fast: false
@@ -122,9 +122,7 @@ jobs:
     - name: build
       run: |
         "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
-        echo "$INCLUDE"
-        set INCLUDE "D:\a\pyautocorpus\pyautocorpus\pcre"
-        dir "$INCLUDE"
+        set PCRE_HOME "D:\a\pyautocorpus\pyautocorpus\pcre"
         python setup.py bdist_wheel
     - uses: actions/upload-artifact@v2
       with:
