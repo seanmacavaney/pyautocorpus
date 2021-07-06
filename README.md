@@ -21,7 +21,9 @@ where:
 
 ### From pypi:
 
-Coming soon
+```bash
+pip install pyautocorpus
+```
 
 ### From source:
 
