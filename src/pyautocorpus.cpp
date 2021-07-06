@@ -4,6 +4,14 @@
 #include "Textifier.h"
 #include <iostream>
 
+#ifndef WIN_HACK
+// noop
+#define CLOCK_MONOTONIC 0
+#define clock_gettime(a, b) {} while (0);
+#endif
+
+
+
 
 static PyObject *textify(PyObject* self, PyObject *args, PyObject *kwds)
 {
