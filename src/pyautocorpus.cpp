@@ -4,7 +4,7 @@
 #include "Textifier.h"
 #include <iostream>
 
-#ifndef WIN_HACK
+#ifdef WIN_HACK
 // noop
 #define CLOCK_MONOTONIC 0
 #define clock_gettime(a, b) {} while (0);
