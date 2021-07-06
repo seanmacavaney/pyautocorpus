@@ -18,7 +18,7 @@ libs = ['pcre']
 comp = []
 
 if windows:
-    PCRE_HOME = os.environ.get("PCRE_HOME")
+    PCRE_HOME = os.environ.get("PCRE_HOME", os.path.realpath(os.path.join(__file__, '..', 'pcre', 'common')))
     print('PCRE_HOME', PCRE_HOME)
     include_dirs.append(PCRE_HOME)
     lib_dirs.append(PCRE_HOME)
