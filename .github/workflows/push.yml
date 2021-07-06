@@ -122,7 +122,7 @@ jobs:
     - name: build
       run: |
         "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
-        setx PCRE_HOME "D:\a\pyautocorpus\pyautocorpus\pcre"
+        echo "D:\a\pyautocorpus\pyautocorpus\pcre" >> $PCRE_HOME 
         python setup.py bdist_wheel
     - uses: actions/upload-artifact@v2
       with:
