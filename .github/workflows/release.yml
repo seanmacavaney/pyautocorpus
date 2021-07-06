@@ -1,10 +1,8 @@
 name: Upload Python Package
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+  release:
+    types: [created]
 
 jobs:
   deploy-sdist:
@@ -23,16 +21,17 @@ jobs:
     - name: build
       run: |
         python setup.py sdist
-    # - name: upload
-    #   env:
-    #     TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-    #     TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-    #   run: |
-    #     twine upload dist/*
+    - name: upload
+      env:
+        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      run: |
+        twine upload dist/*
     - uses: actions/upload-artifact@v2
       with:
         name: sdist-manylinux
         path: dist/*
+
   deploy-bdist-manylinux:
     runs-on: ubuntu-latest
     steps:
@@ -52,21 +51,22 @@ jobs:
         CIBW_BEFORE_ALL: "yum install -y pcre pcre-devel"
       run: |
         python -m cibuildwheel --output-dir wheelhouse
+    - name: upload
+      env:
+        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      run: |
+        twine upload wheelhouse/*
     - uses: actions/upload-artifact@v2
       with:
         name: bdist-manylinux
         path: wheelhouse/*
-    # - name: upload
-    #   env:
-    #     TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-    #     TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-    #   run: |
-    #     twine upload wheelhouse/*
+
   deploy-bdist-macos:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.6]
+        python-version: [3.6, 3.7, 3.8, 3.9]
         os: ['macos-latest']
         architecture: ['x64']
     runs-on: ${{ matrix.os }}
@@ -84,16 +84,16 @@ jobs:
     - name: build
       run: |
         python setup.py bdist_wheel
+    - name: upload
+      env:
+        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      run: |
+        twine upload dist/*
     - uses: actions/upload-artifact@v2
       with:
         name: bdist-macos
         path: dist/*
-    # - name: upload
-    #   env:
-    #     TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-    #     TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-    #   run: |
-    #     twine upload dist/*
 
   # deploy-bdist-windows:
   #   strategy:
