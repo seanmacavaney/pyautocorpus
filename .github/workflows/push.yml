@@ -22,7 +22,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: install-deps
       run: |
-        wget 'https://nav.dl.sourceforge.net/project/gnuwin32/pcre/7.0/pcre-7.0-bin.zip'
+        curl.exe --output pcre-7.0-bin.zip --url https://nav.dl.sourceforge.net/project/gnuwin32/pcre/7.0/pcre-7.0-bin.zip
         unzip pcre-7.0-bin.zip
         dir pcre-7.0-bin
         dir pcre-7.0-bin/bin
