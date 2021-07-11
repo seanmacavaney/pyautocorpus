@@ -14,7 +14,7 @@ include_dirs = [
     os.path.realpath(os.path.join(__file__, '..', 'AutoCorpus', 'src', 'wikipedia')),
 ]
 lib_dirs = []
-libs = ['pcre']
+libs = []
 comp = []
 macros = [('PCRE_STATIC', None)]
 
@@ -26,6 +26,7 @@ if windows:
     macros.append(('CLOCK_MONOTONIC', None))
     macros.append(('clock_gettime', '//'))
 else:
+    libs.append('pcre')
     comp.append('-std=c++11')
 
 setuptools.setup(

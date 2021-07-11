@@ -26,13 +26,6 @@ jobs:
         cd pcre
         cmake.exe .
         dir D:/a/pyautocorpus/pyautocorpus/pcre
-        dir D:/a/pyautocorpus/pyautocorpus/pcre/cmake
-        dir D:/a/pyautocorpus/pyautocorpus/pcre/CMakeFiles
-        dir D:/a/pyautocorpus/pyautocorpus/pcre/doc
-        dir D:/a/pyautocorpus/pyautocorpus/pcre/m4
-        dir D:/a/pyautocorpus/pyautocorpus/pcre/maint
-        dir D:/a/pyautocorpus/pyautocorpus/pcre/sljit
-        dir D:/a/pyautocorpus/pyautocorpus/pcre/testdata
         cd ..
         python -m pip install --upgrade pip
         pip install setuptools wheel twine
