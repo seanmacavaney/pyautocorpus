@@ -29,12 +29,12 @@ jobs:
         # "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
         # reg.exe query "HKLM\SOFTWARE\Microsoft\MSBuild\ToolsVersions\4.0" /v MSBuildToolsPath
         # dir "C:\\Program Files (x86)\\MSBuild\\Microsoft.Cpp\\v4.0\\V142"
-        # cd pcre
-        # cmake.exe .
+        cd pcre
+        cmake.exe .
         # dir "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140"
         # C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe PCRE.sln
-        # dir D:/a/pyautocorpus/pyautocorpus/pcre
-        # cd ..
+        dir D:/a/pyautocorpus/pyautocorpus/pcre
+        cd ..
         python -m pip install --upgrade pip
         pip install setuptools wheel twine
       env:
