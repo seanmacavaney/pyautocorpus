@@ -23,11 +23,11 @@ jobs:
     - name: install-deps
       run: |
         reg.exe query "HKLM\SOFTWARE\Microsoft\MSBuild\ToolsVersions\4.0" /v MSBuildToolsPath
-        "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
+        # "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
         svn co svn://vcs.exim.org/pcre/code/trunk pcre
         cd pcre
         cmake.exe .
-        MSBuild.exe PCRE.sln
+        C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe PCRE.sln
         dir D:/a/pyautocorpus/pyautocorpus/pcre
         cd ..
         python -m pip install --upgrade pip
