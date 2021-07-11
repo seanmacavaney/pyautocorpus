@@ -24,8 +24,7 @@ jobs:
       run: |
         curl.exe --output pcre-7.0-bin.zip --url https://nav.dl.sourceforge.net/project/gnuwin32/pcre/7.0/pcre-7.0-bin.zip
         unzip pcre-7.0-bin.zip
-        dir pcre-7.0-bin
-        dir pcre-7.0-bin/bin
+        dir bin
         svn co svn://vcs.exim.org/pcre/code/trunk pcre
         # "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
         # reg.exe query "HKLM\SOFTWARE\Microsoft\MSBuild\ToolsVersions\4.0" /v MSBuildToolsPath
