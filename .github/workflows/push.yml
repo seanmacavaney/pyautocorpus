@@ -37,8 +37,8 @@ jobs:
         cd ..
         python -m pip install --upgrade pip
         pip install setuptools wheel twine
-      env:
-        VCTargetsPath: "C:\\Program Files (x86)\\MSBuild\\Microsoft.Cpp\\v4.0\\V140"
+      # env:
+      #   VCTargetsPath: "C:\\Program Files (x86)\\MSBuild\\Microsoft.Cpp\\v4.0\\V140"
     - name: build
       run: |
         "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
