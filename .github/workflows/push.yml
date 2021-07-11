@@ -22,6 +22,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: install-deps
       run: |
+        "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
         svn co svn://vcs.exim.org/pcre/code/trunk pcre
         cd pcre
         cmake.exe .
