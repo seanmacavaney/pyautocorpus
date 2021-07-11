@@ -46,7 +46,7 @@ setuptools.setup(
     python_requires='>=3.6',
     ext_modules=[setuptools.Extension("pyautocorpus", [
         "src/pyautocorpus.cpp",
-        "src/utilities.cpp", # custom version of AutoCorpus/src/wikipedia/utilities.cpp for the Windows build
-        "AutoCorpus/src/wikipedia/Textifier.cpp",
+        "src/utilities.cpp", # custom version of AutoCorpus/src/common/utilities.cpp because of the Windows build
+        "src/Textifier.cpp", # custom version of AutoCorpus/src/wikipedia/Textifier.cpp because of the Windows build
     ], include_dirs=include_dirs, libraries=libs, define_macros=macros, extra_compile_args=comp)],
 )
