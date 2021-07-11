@@ -24,7 +24,7 @@ jobs:
       run: |
         "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
         reg.exe query "HKLM\SOFTWARE\Microsoft\MSBuild\ToolsVersions\4.0" /v MSBuildToolsPath
-        # "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
+        dir "C:\\Program Files (x86)\\MSBuild\\Microsoft.Cpp\\v4.0\\V142"
         svn co svn://vcs.exim.org/pcre/code/trunk pcre
         cd pcre
         cmake.exe .
@@ -35,7 +35,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install setuptools wheel twine
       env:
-        VCTargetsPath: "C:\\Program Files (x86)\\MSBuild\\Microsoft.Cpp\\v4.0\\V140"
+        VCTargetsPath: "C:\\Program Files (x86)\\MSBuild\\Microsoft.Cpp\\v4.0\\V142"
     - name: build
       run: |
         "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
