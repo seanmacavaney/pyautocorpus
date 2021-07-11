@@ -49,5 +49,5 @@ setuptools.setup(
         "src/pyautocorpus.cpp",
         "src/utilities.cpp", # custom version of AutoCorpus/src/common/utilities.cpp because of the Windows build
         "src/Textifier.cpp", # custom version of AutoCorpus/src/wikipedia/Textifier.cpp because of the Windows build
-    ], include_dirs=include_dirs, libraries=libs, define_macros=macros, extra_compile_args=comp)],
+    ], include_dirs=include_dirs, libraries=libs, library_dirs=lib_dirs, define_macros=macros, extra_compile_args=comp)],
 )
