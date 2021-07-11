@@ -15,7 +15,7 @@ pyautocorpus 0.005 sec/doc
 where:
  - `mwparserfromhell` is `mwparserfromhell.parse(x).strip_code()`
  - `wikitextparser` is `wikitextparser.parse(x).plain_text()`
- - `pyautocorpus` is `pyautocorpus.textify(x)`
+ - `pyautocorpus` is `pyautocorpus.Textifier().textify(x)`
 
 ## Installing
 
@@ -39,7 +39,8 @@ Example:
 
 ```python
 import pyautocorpus
-pyautocorpus.textify("==Wiki Marked up text==\n [[Some Page|link text]] example.")
+textifier = pyautocorpus.Textifier()
+textifier.textify("==Wiki Marked up text==\n [[Some Page|link text]] example.")
 'Wiki Marked up text\n\n\n link text example.'
 ```
 
