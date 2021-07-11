@@ -22,20 +22,24 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: install-deps
       run: |
-        "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
-        reg.exe query "HKLM\SOFTWARE\Microsoft\MSBuild\ToolsVersions\4.0" /v MSBuildToolsPath
-        dir "C:\\Program Files (x86)\\MSBuild\\Microsoft.Cpp\\v4.0\\V142"
+        wget 'https://nav.dl.sourceforge.net/project/gnuwin32/pcre/7.0/pcre-7.0-bin.zip'
+        unzip pcre-7.0-bin.zip
+        dir pcre-7.0-bin
+        dir pcre-7.0-bin/bin
         svn co svn://vcs.exim.org/pcre/code/trunk pcre
-        cd pcre
-        cmake.exe .
-        dir "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140"
-        C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe PCRE.sln
-        dir D:/a/pyautocorpus/pyautocorpus/pcre
-        cd ..
+        # "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
+        # reg.exe query "HKLM\SOFTWARE\Microsoft\MSBuild\ToolsVersions\4.0" /v MSBuildToolsPath
+        # dir "C:\\Program Files (x86)\\MSBuild\\Microsoft.Cpp\\v4.0\\V142"
+        # cd pcre
+        # cmake.exe .
+        # dir "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140"
+        # C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe PCRE.sln
+        # dir D:/a/pyautocorpus/pyautocorpus/pcre
+        # cd ..
         python -m pip install --upgrade pip
         pip install setuptools wheel twine
       env:
-        VCTargetsPath: "C:\\Program Files (x86)\\MSBuild\\Microsoft.Cpp\\v4.0\\V142"
+        VCTargetsPath: "C:\\Program Files (x86)\\MSBuild\\Microsoft.Cpp\\v4.0\\V140"
     - name: build
       run: |
         "%VS140COMNTOOLS%../../VC/vcvarsall.bat"

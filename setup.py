@@ -22,9 +22,8 @@ if windows:
     PCRE_HOME = os.environ.get("PCRE_HOME", os.path.realpath(os.path.join(__file__, '..', 'pcre')))
     print('PCRE_HOME', PCRE_HOME)
     include_dirs.append(PCRE_HOME)
-    lib_dirs.append(PCRE_HOME)
-    macros.append(('CLOCK_MONOTONIC', None))
-    macros.append(('clock_gettime', '//'))
+    PCRE_BIN = os.environ.get("PCRE_HOME", os.path.realpath(os.path.join(__file__, '..', 'pcre-7.0-bin', 'bin')))
+    lib_dirs.append(PCRE_BIN)
 else:
     libs.append('pcre')
     comp.append('-std=c++11')
