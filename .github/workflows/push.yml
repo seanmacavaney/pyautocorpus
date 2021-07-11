@@ -4,6 +4,7 @@ on:
   push:
     branches: [ master ]
 
+jobs:
   deploy-bdist-windows:
     strategy:
       fail-fast: false
