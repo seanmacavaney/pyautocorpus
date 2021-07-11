@@ -33,7 +33,7 @@ jobs:
       run: |
         "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
         echo "D:\a\pyautocorpus\pyautocorpus\pcre" >> $PCRE_HOME 
-        python setup.py bdist_wheel --global-option --compiler=mingw32
+        python setup.py bdist_wheel
     - uses: actions/upload-artifact@v2
       with:
         name: bdist-windows
