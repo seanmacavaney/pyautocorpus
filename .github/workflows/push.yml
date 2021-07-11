@@ -1,0 +1,45 @@
+name: Upload Python Package
+
+on:
+  push:
+    branches: [ master ]
+
+  deploy-bdist-windows:
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [3.6]
+        os: ['windows-latest']
+        architecture: ['x64']
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    - uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: install-deps
+      run: |
+        svn co svn://vcs.exim.org/pcre/code/trunk pcre
+        cd pcre
+        cmake.exe .
+        dir D:/a/pyautocorpus/pyautocorpus/pcre
+        cd ..
+        python -m pip install --upgrade pip
+        pip install setuptools wheel twine
+    - name: build
+      run: |
+        "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
+        echo "D:\a\pyautocorpus\pyautocorpus\pcre" >> $PCRE_HOME 
+        python setup.py bdist_wheel --global-option --compiler=mingw32
+    - uses: actions/upload-artifact@v2
+      with:
+        name: bdist-windows
+        path: dist/*
+    # - name: upload
+    #   env:
+    #     TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+    #     TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+    #   run: |
+    #     twine upload dist/*
