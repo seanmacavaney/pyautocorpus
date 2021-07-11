@@ -29,12 +29,13 @@ jobs:
         cd pcre
         cmake.exe .
         dir "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140"
-        SET VCTargetsPath="C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140"
         C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe PCRE.sln
         dir D:/a/pyautocorpus/pyautocorpus/pcre
         cd ..
         python -m pip install --upgrade pip
         pip install setuptools wheel twine
+      env:
+        VCTargetsPath: "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140"
     - name: build
       run: |
         "%VS140COMNTOOLS%../../VC/vcvarsall.bat"
