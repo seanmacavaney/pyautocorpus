@@ -28,6 +28,8 @@ jobs:
         svn co svn://vcs.exim.org/pcre/code/trunk pcre
         cd pcre
         cmake.exe .
+        dir "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140"
+        SET VCTargetsPath="C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140"
         C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe PCRE.sln
         dir D:/a/pyautocorpus/pyautocorpus/pcre
         cd ..
