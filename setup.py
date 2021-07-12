@@ -9,6 +9,11 @@ with open("README.md", "r") as fh:
 
 windows = sys.platform.startswith("win")
 
+sources = [
+    "src/pyautocorpus.cpp",
+    "src/utilities.cpp", # custom version of AutoCorpus/src/common/utilities.cpp because of the Windows build
+    "src/Textifier.cpp", # custom version of AutoCorpus/src/wikipedia/Textifier.cpp because of the Windows build
+]
 include_dirs = [
     os.path.realpath(os.path.join(__file__, '..', 'AutoCorpus', 'src', 'common')),
     os.path.realpath(os.path.join(__file__, '..', 'AutoCorpus', 'src', 'wikipedia')),
@@ -25,6 +30,7 @@ if windows:
     PCRE_BIN = os.environ.get("PCRE_BIN", os.path.realpath(os.path.join(__file__, '..', 'bin')))
     lib_dirs.append(PCRE_BIN)
     libs.append(os.path.join(PCRE_BIN, 'pcre3.dll'))
+    sources = glob(os.path.join(PCRE_HOME, '*.c')) + sources
 else:
     libs.append('pcre')
     comp.append('-std=c++11')
@@ -45,9 +51,5 @@ setuptools.setup(
         'License :: OSI Approved :: MIT License',
     ],
     python_requires='>=3.6',
-    ext_modules=[setuptools.Extension("pyautocorpus", [
-        "src/pyautocorpus.cpp",
-        "src/utilities.cpp", # custom version of AutoCorpus/src/common/utilities.cpp because of the Windows build
-        "src/Textifier.cpp", # custom version of AutoCorpus/src/wikipedia/Textifier.cpp because of the Windows build
-    ], include_dirs=include_dirs, libraries=libs, library_dirs=lib_dirs, define_macros=macros, extra_compile_args=comp)],
+    ext_modules=[setuptools.Extension("pyautocorpus", sources, include_dirs=include_dirs, libraries=libs, library_dirs=lib_dirs, define_macros=macros, extra_compile_args=comp)],
 )
