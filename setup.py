@@ -24,6 +24,7 @@ if windows:
     include_dirs.append(PCRE_HOME)
     PCRE_BIN = os.environ.get("PCRE_BIN", os.path.realpath(os.path.join(__file__, '..', 'bin')))
     lib_dirs.append(PCRE_BIN)
+    libs.append(os.path.join(PCRE_BIN, 'pcre3.dll'))
 else:
     libs.append('pcre')
     comp.append('-std=c++11')
