@@ -5,7 +5,6 @@
 
 typedef struct {
     PyObject_HEAD
-    Textifier *textifier;
 } TextifierObject;
 
 static void
