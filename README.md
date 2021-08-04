@@ -27,7 +27,7 @@ pip install pyautocorpus
 
 ### From source:
 
-Be sure to clone recursivly:
+Be sure to clone recursively:
 
 ```bash
 git clone --recursive https://github.com/seanmacavaney/pyautocorpus.git
