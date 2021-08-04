@@ -50,5 +50,5 @@ setuptools.setup(
         'License :: OSI Approved :: MIT License',
     ],
     python_requires='>=3.6',
-    ext_modules=[setuptools.Extension("pyautocorpus", sources, include_dirs=`, libraries=libs, library_dirs=lib_dirs, define_macros=macros, extra_compile_args=comp)],
+    ext_modules=[setuptools.Extension("pyautocorpus", sources, include_dirs=include_dirs, libraries=libs, library_dirs=lib_dirs, define_macros=macros, extra_compile_args=comp)],
 )
