@@ -27,6 +27,12 @@ pip install pyautocorpus
 
 ### From source:
 
+Be sure to clone recursivly:
+
+```bash
+git clone --recursive https://github.com/seanmacavaney/pyautocorpus.git
+```
+
 You will first need the `pcre` library installed.
 
 ```bash
