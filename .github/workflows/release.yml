@@ -61,45 +61,6 @@ jobs:
         name: bdist-manylinux2010
         path: wheelhouse/*
 
-  deploy-bdist-manylinux2014:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        submodules: recursive
-    - uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
-    - name: install-deps
-      run: |
-        python -m pip install --upgrade pip
-        pip install setuptools wheel twine
-    - uses: pypa/cibuildwheel@v2.0.0
-      with:
-        output-dir: wheelhouse
-      env:
-        CIBW_BEFORE_ALL: "yum install -y pcre pcre-devel"
-        CIBW_MANYLINUX_X86_64_IMAGE: manylinux2014
-        CIBW_MANYLINUX_I686_IMAGE: manylinux2014
-        CIBW_MANYLINUX_PYPY_X86_64_IMAGE: manylinux2014
-        CIBW_MANYLINUX_PYPY_I686_IMAGE: manylinux2014
-    - name: upload
-      env:
-        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-      # per findings in #1: change 2_17 to 2_18 :shrug:
-      run: |
-        for f in wheelhouse/*_2_17_*.whl
-        do
-        echo mv $f `echo $f | sed 's/_2_17_/_2_18_/g'`
-        mv $f `echo $f | sed 's/_2_17_/_2_18_/g'`
-        done
-        twine upload wheelhouse/*
-    - uses: actions/upload-artifact@v2
-      with:
-        name: bdist-manylinux2014
-        path: wheelhouse/*
-
   deploy-bdist-macos:
     strategy:
       fail-fast: false
