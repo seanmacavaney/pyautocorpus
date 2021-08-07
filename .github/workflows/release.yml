@@ -89,16 +89,11 @@ jobs:
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       # per findings in #1: change 2_17 to 2_18 :shrug:
       run: |
-        mv wheelhouse/pyautocorpus-0.1.3-cp36-cp36m-manylinux_2_17_i686.manylinux2014_i686.whl wheelhouse/pyautocorpus-0.1.3-cp36-cp36m-manylinux_2_18_i686.manylinux2014_i686.whl 
-        mv wheelhouse/pyautocorpus-0.1.3-cp36-cp36m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl wheelhouse/pyautocorpus-0.1.3-cp36-cp36m-manylinux_2_18_x86_64.manylinux2014_x86_64.whl 
-        mv wheelhouse/pyautocorpus-0.1.3-cp37-cp37m-manylinux_2_17_i686.manylinux2014_i686.whl wheelhouse/pyautocorpus-0.1.3-cp37-cp37m-manylinux_2_18_i686.manylinux2014_i686.whl 
-        mv wheelhouse/pyautocorpus-0.1.3-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl wheelhouse/pyautocorpus-0.1.3-cp37-cp37m-manylinux_2_18_x86_64.manylinux2014_x86_64.whl 
-        mv wheelhouse/pyautocorpus-0.1.3-cp38-cp38-manylinux_2_17_i686.manylinux2014_i686.whl wheelhouse/pyautocorpus-0.1.3-cp38-cp38-manylinux_2_18_i686.manylinux2014_i686.whl 
-        mv wheelhouse/pyautocorpus-0.1.3-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl wheelhouse/pyautocorpus-0.1.3-cp38-cp38-manylinux_2_18_x86_64.manylinux2014_x86_64.whl 
-        mv wheelhouse/pyautocorpus-0.1.3-cp39-cp39-manylinux_2_17_i686.manylinux2014_i686.whl wheelhouse/pyautocorpus-0.1.3-cp39-cp39-manylinux_2_18_i686.manylinux2014_i686.whl 
-        mv wheelhouse/pyautocorpus-0.1.3-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl wheelhouse/pyautocorpus-0.1.3-cp39-cp39-manylinux_2_18_x86_64.manylinux2014_x86_64.whl 
-        mv wheelhouse/pyautocorpus-0.1.3-pp37-pypy37_pp73-manylinux_2_17_i686.manylinux2014_i686.whl wheelhouse/pyautocorpus-0.1.3-pp37-pypy37_pp73-manylinux_2_18_i686.manylinux2014_i686.whl
-        mv wheelhouse/pyautocorpus-0.1.3-pp37-pypy37_pp73-manylinux_2_17_x86_64.manylinux2014_x86_64.whl wheelhouse/pyautocorpus-0.1.3-pp37-pypy37_pp73-manylinux_2_18_x86_64.manylinux2014_x86_64.whl
+        for f in wheelhouse/*_2_17_*.whl
+        do
+        echo mv $f `echo $f | sed 's/_2_17_/_2_18_/g'`
+        mv $f `echo $f | sed 's/_2_17_/_2_18_/g'`
+        done
         twine upload wheelhouse/*
     - uses: actions/upload-artifact@v2
       with:
