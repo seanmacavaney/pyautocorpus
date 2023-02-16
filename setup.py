@@ -27,7 +27,7 @@ if windows:
     ]
 else:
     libs.append('pcre')
-    comp.append('-std=c++11')
+    comp += ['-std=c++11', '-I/opt/homebrew/include']
     sources = [
         "src/pyautocorpus.cpp",
         "src/utilities.cpp", # custom version of AutoCorpus/src/common/utilities.cpp because of the Windows build
