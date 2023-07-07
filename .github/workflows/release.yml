@@ -50,6 +50,7 @@ jobs:
         output-dir: wheelhouse
       env:
         CIBW_BEFORE_ALL: "yum install -y pcre pcre-devel"
+        CIBW_SKIP: "*musllinux*"
     - name: upload
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
