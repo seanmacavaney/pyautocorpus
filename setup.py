@@ -36,7 +36,7 @@ else:
 
 setuptools.setup(
     name="pyautocorpus",
-    version="0.1.17",
+    version="0.1.18",
     author="Sean MacAvaney",
     author_email="sean.macavaney@gmail.com",
     description="",
