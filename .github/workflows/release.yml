@@ -45,7 +45,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install setuptools wheel twine
-    - uses: pypa/cibuildwheel@v3.2.1
+    - uses: pypa/cibuildwheel@v4.3.1
       with:
         output-dir: wheelhouse
       env:
@@ -68,7 +68,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.9, '3.10', '3.11', '3.12', '3.13', '3.14']
+        python-version: [3.9, '3.10', '3.11', '3.12', '3.13', '3.14', '3.15']
         os: ['macos-latest']
         architecture: ['x64']
     runs-on: ${{ matrix.os }}
@@ -102,7 +102,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.9, '3.10', '3.11', '3.12', '3.13', '3.14']
+        python-version: [3.9, '3.10', '3.11', '3.12', '3.13', '3.14', '3.15']
         os: ['windows-latest']
         architecture: ['x64']
     runs-on: ${{ matrix.os }}
