@@ -10,14 +10,17 @@ typedef struct {
 static void
 Textifier_dealloc(TextifierObject *self)
 {
-  Py_TYPE(self)->tp_free((PyObject *) self);
+  PyTypeObject *tp = Py_TYPE(self);
+  freefunc tp_free = (freefunc)PyType_GetSlot(tp, Py_tp_free);
+  tp_free(self);
+  Py_DECREF(tp); // heap type instances hold a reference to their type
 }
 
 static PyObject *
 Textifier_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 {
     TextifierObject *self;
-    self = (TextifierObject *)type->tp_alloc(type, 0);
+    self = (TextifierObject *)((allocfunc)PyType_GetSlot(type, Py_tp_alloc))(type, 0);
     return (PyObject *)self;
 }
 
@@ -25,7 +28,7 @@ static int
 Textifier_init(TextifierObject *self, PyObject *args, PyObject *kwds)
 {
     PyErr_SetString(PyExc_RuntimeError, "pyautocorpus is not currently supported on Windows.\nIf you have the expertise to add it, we would accept a pull request!");
-    return NULL;
+    return -1;
 }
 
 static PyObject *Textifier_textify(TextifierObject* self, PyObject *args, PyObject *kwds)
@@ -52,45 +55,21 @@ static PyMethodDef Textifier_methods[] = {
     {NULL}  /* Sentinel */
 };
 
-static PyTypeObject TextifierType = {
-    PyVarObject_HEAD_INIT(NULL, 0)
-    "pyautocorpus.Textifier",  /* tp_name */
-    sizeof(TextifierObject),   /* tp_basicsize */
-    0,                         /* tp_itemsize */
-    (destructor) Textifier_dealloc, /* tp_dealloc */
-    0,                         /* tp_print */
-    0,                         /* tp_getattr */
-    0,                         /* tp_setattr */
-    0,                         /* tp_reserved */
-    0,                         /* tp_repr */
-    0,                         /* tp_as_number */
-    0,                         /* tp_as_sequence */
-    0,                         /* tp_as_mapping */
-    0,                         /* tp_hash  */
-    0,                         /* tp_call */
-    0,                         /* tp_str */
-    0,                         /* tp_getattro */
-    0,                         /* tp_setattro */
-    0,                         /* tp_as_buffer */
-    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE, /* tp_flags */
-    "autocorpus wikipedia textifier", /* tp_doc */
-    0,                         /* tp_traverse */
-    0,                         /* tp_clear */
-    0,                         /* tp_richcompare */
-    0,                         /* tp_weaklistoffset */
-    0,                         /* tp_iter */
-    0,                         /* tp_iternext */
-    Textifier_methods,         /* tp_methods */
-    0,                         /* tp_members */
-    0,                         /* tp_getset */
-    0,                         /* tp_base */
-    0,                         /* tp_dict */
-    0,                         /* tp_descr_get */
-    0,                         /* tp_descr_set */
-    0,                         /* tp_dictoffset */
-    (initproc)Textifier_init,  /* tp_init */
-    0,                         /* tp_alloc */
-    Textifier_new,             /* tp_new */
+static PyType_Slot Textifier_slots[] = {
+    {Py_tp_dealloc, (void *) Textifier_dealloc},
+    {Py_tp_doc, (void *) "autocorpus wikipedia textifier"},
+    {Py_tp_methods, (void *) Textifier_methods},
+    {Py_tp_init, (void *) Textifier_init},
+    {Py_tp_new, (void *) Textifier_new},
+    {0, NULL}
+};
+
+static PyType_Spec Textifier_spec = {
+    "pyautocorpus.Textifier",
+    sizeof(TextifierObject),
+    0,
+    Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,
+    Textifier_slots
 };
 
 static PyMethodDef PyAutoCorpusMethods[] = {
@@ -110,16 +89,19 @@ PyInit_pyautocorpus(void)
 {
     PyObject *m;
 
-    if (PyType_Ready(&TextifierType) < 0)
-        return NULL;
-
     m = PyModule_Create(&pyautocorpus_module);
     if (m == NULL)
         return NULL;
 
-    Py_INCREF(&TextifierType);
-    if (PyModule_AddObject(m, "Textifier", (PyObject *) &TextifierType) < 0) {
-      Py_DECREF(&TextifierType);
+    PyObject *textifier_type = PyType_FromSpec(&Textifier_spec);
+    if (textifier_type == NULL) {
+      Py_DECREF(m);
+      return NULL;
+    }
+
+    // PyModule_AddObject steals the reference on success only
+    if (PyModule_AddObject(m, "Textifier", textifier_type) < 0) {
+      Py_DECREF(textifier_type);
       Py_DECREF(m);
       return NULL;
     }
