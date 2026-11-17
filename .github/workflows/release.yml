@@ -52,6 +52,10 @@ jobs:
         CIBW_MANYLINUX_X86_64_IMAGE: manylinux_2_28
         CIBW_ARCHS_LINUX: x86_64
         CIBW_BEFORE_ALL: "dnf install -y pcre pcre-devel"
+        # The extension targets the stable ABI (cp37-abi3), so a single build
+        # covers every later CPython. cp39 is the oldest cibuildwheel v4 supports.
+        # Free-threaded builds have no abi3, so they still get one wheel each.
+        CIBW_BUILD: "cp39-manylinux_x86_64 cp3*t-manylinux_x86_64"
         CIBW_SKIP: "*musllinux* pp*"
     - name: upload
       env:
@@ -68,7 +72,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.9, '3.10', '3.11', '3.12', '3.13', '3.14', '3.15']
+        # one build per platform: the wheel is cp37-abi3 and covers later CPythons
+        python-version: ['3.9']
         os: ['macos-latest']
         architecture: ['x64']
     runs-on: ${{ matrix.os }}
@@ -102,7 +107,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: [3.9, '3.10', '3.11', '3.12', '3.13', '3.14', '3.15']
+        # one build per platform: the wheel is cp37-abi3 and covers later CPythons
+        python-version: ['3.9']
         os: ['windows-latest']
         architecture: ['x64']
     runs-on: ${{ matrix.os }}
