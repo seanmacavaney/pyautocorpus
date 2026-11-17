@@ -89,8 +89,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install setuptools wheel twine
     - name: build
+      # Target macOS 11 (the first arm64 release) rather than the runner's OS.
+      # The extension links only system libraries (/usr/lib/libpcre, libc++,
+      # libSystem), so nothing needs bundling; --plat-name sets the wheel tag,
+      # since setuptools otherwise copies the interpreter's own target.
+      env:
+        MACOSX_DEPLOYMENT_TARGET: '11.0'
       run: |
-        python setup.py bdist_wheel
+        python setup.py bdist_wheel --plat-name macosx-11.0-arm64
     - name: upload
       env:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
